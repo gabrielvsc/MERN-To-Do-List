@@ -7,9 +7,11 @@ const taskSchema = new Schema({
     title: {type: String, required: true},
     description:  {type: String, required: true},
     date:  {type: Date, default: Date.now },
-    concluded:  {type: Boolean, required: true}
+    concluded:  {type: Boolean, required: false, default: false},
+    user: { type: Schema.Types.ObjectId,
+            ref: 'User'
+        },
 })
+const Task = mongoose.model('Task', taskSchema);
 
-const Task = mongoose.model('Blog', taskSchema);
-
-module.exports = {Task}
+module.exports = {Task , taskSchema}

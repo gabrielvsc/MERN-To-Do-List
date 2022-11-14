@@ -1,4 +1,4 @@
-.signup_container {
+.login_container {
     width: 100%;
     min-height: 100vh;
     background-image: url(../../assets/layered-steps-haikei.svg);
@@ -8,7 +8,7 @@
     justify-content: center;
 }
 
-.signup_form_container {
+.login_form_container {
     width: 400px;
     height: 600px;
     background-color: #ffffff;
@@ -16,7 +16,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 15px;
-    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.3);
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.3);
 }
 
 .form_container {
@@ -39,6 +39,17 @@
     background-color: rgba(41,182,246,0.05);
     margin: 5px 0;
     font-size: 14px;
+}
+
+.gender_input_container {
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+}
+
+.gender_input {
+    margin: 0 8px;
 }
 
 .error_msg {

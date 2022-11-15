@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { User, validate } = require("../models/user");
+const { Task } = require("../models/task");
 const bcrypt = require('bcrypt');
 
 router.post("/", async (req, res) => {
@@ -40,9 +41,9 @@ router.delete("/:userId", async function(req, res){
 
         } else {
             await user.remove();
-            res.status(200).send({data: user, message: "User deleted" });
+            await Task.deleteMany({user: req.params.userId});
+            res.status(201).send({data: user, message: "User and associated tasks deleted" });
         }
-
         
     } catch (error) {
         res.status(500).send({ message: "Internal Server Error" });

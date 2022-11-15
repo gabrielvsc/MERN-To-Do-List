@@ -9,7 +9,12 @@ const userSchema = new mongoose.Schema({
     gender: {type: String, required: true},
     age: {type: Number, required: true},
     email: {type: String, required: true},
-    password: {type: String, required: true}
+    password: {type: String, required: true},
+    imgURL: {type: String, required: false, default: ""},
+    tasks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Task'
+    }]
 });
 
 // Generate token with jwt
@@ -18,8 +23,9 @@ userSchema.methods.generateAuthToken = function () {
     return token;
 };
 
+
 // Creating User
-const User = mongoose.model("user", userSchema);
+const User = mongoose.model("User", userSchema);
 
 // Creating Validate with Joi
 const validate = (data) => {

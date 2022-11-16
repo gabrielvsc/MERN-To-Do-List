@@ -2,6 +2,9 @@ const {Task} = require('../models/task');
 const {User} = require('../models/user');
 
 exports.createTask = async (req, res) => {
+/*
+    #swagger.description = 'Route for creating a task with user id'
+*/
     try {
         const user = await Task.create({...req.body, user: req.params.userId}).then(async (docTask) => {
             return await User.findByIdAndUpdate(req.params.userId, 
@@ -16,6 +19,9 @@ exports.createTask = async (req, res) => {
 }
 
 exports.listTasks = async (req, res) => {
+    /*
+    #swagger.description = 'Route to list all tasks related to a especific user'
+    */
     try {
         const tasks = await Task.find({user: req.params.userId});
         res.status(200).send({data: tasks});
@@ -25,6 +31,9 @@ exports.listTasks = async (req, res) => {
 }
 
 exports.deleteTask = async (req, res) => {
+    /**
+     * #swagger.description = 'Route to delete a task related to a specifc user'
+     */
     try {
         await Task.findByIdAndRemove(req.params.taskId).then(async (docTask) => {
             if(docTask == null){
@@ -46,6 +55,9 @@ exports.deleteTask = async (req, res) => {
 }
 
 exports.getTask = async (req, res) => {
+    /**
+     * #swagger.description = 'Route to get a task, not related to a specific user'
+     */
     try {
         const task = await Task.findById(req.params.taskId);
         if(task == null || task == []){
@@ -60,6 +72,9 @@ exports.getTask = async (req, res) => {
 }
 
 exports.updateTask = async (req, res) => {
+    /**
+     * #swagger.description = 'Route to update a task, not related to a specific user'
+     */
     try {
         const task = await Task.findById(req.params.taskId);
         if (task == null) {

@@ -4,6 +4,9 @@ const { Task } = require("../models/task");
 const bcrypt = require('bcrypt');
 
 router.post("/", async (req, res) => {
+    /**
+     * #swagger.description = 'Route to create a user.'
+     */
     try {
         const { error } = validate(req.body);
         if (error)
@@ -24,6 +27,9 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/", async function(req, res) {
+    /**
+     * #swagger.description = 'Route to get a list of all available users'
+     */
     try {
         const users = await User.find().select("_id fullName gender age email password imgURL __v");
         res.status(200).send(users);
@@ -33,7 +39,28 @@ router.get("/", async function(req, res) {
     }
 });
 
+router.get("/:userId", async function(req, res) {
+    /**
+     * #swagger.description = 'Route to get a specifc user with all tasks assoiated'
+     */
+    try {
+        const user= await User.findById(req.params.userId).populate('tasks');
+        if (user == null) {
+            res.status(404).send({ message: "User not found" });
+
+        } else {
+            res.status(200).send(user);
+        }
+
+    } catch (error) {
+        res.status(500).send({message: "Internal Server Error" });        
+    }
+});
+
 router.delete("/:userId", async function(req, res){
+    /**
+     * #swagger.description = 'Route to delete a specific user.'
+     */
     try {
         const user = await User.findById(req.params.userId);
         if (user == null){
@@ -42,7 +69,7 @@ router.delete("/:userId", async function(req, res){
         } else {
             await user.remove();
             await Task.deleteMany({user: req.params.userId});
-            res.status(201).send({data: user, message: "User and associated tasks deleted" });
+            res.status(200).send({data: user, message: "User and associated tasks deleted" });
         }
         
     } catch (error) {
@@ -52,6 +79,9 @@ router.delete("/:userId", async function(req, res){
 });
 
 router.put("/:userId", async function (req, res) {
+    /**
+     * #swagger.description = 'Route to update a specific user.'
+     */
     const user = await User.findById(req.params.userId).select("_id fullName gender age email password imgURL __v");
         if (user == null){
             return res.status(404).send({ message: "User not found" });
